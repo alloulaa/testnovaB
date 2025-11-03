@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: TestNova
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/testnova?useSSL=false
+    username: root
+    password:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+  ai:
+    openai:
+      api-key: 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
+      base-url: https://api.groq.com/openai
+      chat:
+        options:
+          model: llama-3.1-8b-instant
+
+logging:
+  level:
+    org:
+      hibernate:
+        sql: DEBUG
+
+server:
+  port: 8081
+
