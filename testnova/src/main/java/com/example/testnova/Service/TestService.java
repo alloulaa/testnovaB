@@ -33,7 +33,7 @@ public class TestService {
                 {
                   "id": 1,
                   "text": "Question technique courte",
-                  "type": "multiple|open",
+                  "type": "multiple",
                   "options": ["Option 1", "Option 2"]  // Si multiple
                 }
               ],  // Exactement 10 questions techniques basées sur skills (ex. : Java, Angular, etc.)
