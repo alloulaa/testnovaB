@@ -22,8 +22,7 @@ public class TestService {
         System.out.println("[TestService] Début génération test personnalisé");
 
         String prompt = """
-            Tu es un expert technique. Génère un test personnalisé basé sur cette analyse CV (JSON):
-            
+Tu es un expert technique. Génère un test personnalisé basé UNIQUEMENT sur les compétences techniques listées dans la section "skills" de cette analyse CV (JSON). Ignore le résumé et les expériences pour les questions.            
             %s
             
             Réponds UNIQUEMENT avec le JSON suivant, sans texte supplémentaire, sans bloc de code, sans backticks. JSON pur et valide.
