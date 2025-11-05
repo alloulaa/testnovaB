@@ -19,22 +19,17 @@ public class CVservice {
         this.objectMapper = new ObjectMapper();
     }
 
-    public Object analysecv(String cvtext, String providedOwnerName) {
+    public Object analysecv(String cvtext) {
         System.out.println("[CVService] Début de l'analyse IA");
-
-        String cvOwnerName = providedOwnerName != null && !providedOwnerName.trim().isEmpty()
-                ? providedOwnerName
-                : extractNameFromCV(cvtext);
-        System.out.println("[CVService] ownerName utilisé: " + cvOwnerName);
 
         String prompt = """
             Tu es un expert RH. Analyse le CV suivant (format texte) :
-            
+
             %s
-            
+
             Réponds UNIQUEMENT avec le JSON suivant, sans aucun texte supplémentaire, sans bloc de code, sans backticks, sans markdown. JSON pur et valide.
             Lis bien le texte avant de répondre. Si tu ne trouves pas une information, laisse-la vide.
-            
+
             {
               "resume": "Résumé intelligent du profil en 2 à 3 phrases",
               "skills": [
@@ -51,10 +46,9 @@ public class CVservice {
                   "duration": "Durée en mois ou années",
                   "competences": ["Compétence utilisée 1", "Compétence utilisée 2"]
                 }
-              ],
-              "ownerName": "%s"
+              ]
             }
-            """.formatted(cvtext, cvOwnerName);
+            """.formatted(cvtext);
 
         try {
             var response = chatClient.prompt()
@@ -71,12 +65,6 @@ public class CVservice {
             try {
                 Object parsedJson = objectMapper.readValue(cleanJson, Object.class);
                 System.out.println("[CVService] JSON parsé avec succès");
-                @SuppressWarnings("unchecked")
-                Map<String, Object> jsonMap = (Map<String, Object>) parsedJson;
-                if (!jsonMap.containsKey("ownerName")) {
-                    jsonMap.put("ownerName", cvOwnerName);
-                    System.out.println("[CVService] ownerName ajouté manuellement au JSON");
-                }
                 return parsedJson;
             } catch (Exception parseException) {
                 System.err.println("[CVService] Erreur parsing JSON nettoyé: " + parseException.getMessage());
@@ -112,18 +100,5 @@ public class CVservice {
         cleaned = cleaned.replaceAll("/\\*.*?\\*/", "").replaceAll("//.*", "").trim();
 
         return cleaned.isEmpty() ? "{}" : cleaned;
-    }
-
-    private String extractNameFromCV(String cvText) {
-        String[] lines = cvText.split("\n");
-        for (String line : lines) {
-            String trimmed = line.trim();
-            if (!trimmed.isEmpty() && trimmed.length() > 2 && trimmed.length() < 50) {
-                System.out.println("[CVService] Nom extrait du CV: " + trimmed);
-                return trimmed;
-            }
-        }
-        System.out.println("[CVService] Nom par défaut: Candidat");
-        return "Candidat";
     }
 }
