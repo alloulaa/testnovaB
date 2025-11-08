@@ -37,12 +37,20 @@ public class CVservice {
             
             {
               "resume": "Résumé intelligent du profil en 2 à 3 phrases",
-              "skills": [
-                {
-                  "name": "Compétence",
-                  "level": "beginner|intermediate|advanced|expert"
-                }
-              ],
+              "skills": {
+                     "hardSkills": [
+                       {
+                         "name": "Compétence",
+                         "level": "beginner|intermediate|advanced|expert"
+                       }
+                     ],
+                     "softSkills": [
+                       {
+                         "name": "Compétence",
+                         "level": "beginner|intermediate|advanced|expert"
+                       }
+                     ]
+                   },
               "experience": [
                 {
                   "company": "Nom de l'entreprise",

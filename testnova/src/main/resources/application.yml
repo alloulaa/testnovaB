@@ -14,7 +14,7 @@ spring:
       ddl-auto: update
   ai:
     openai:
-      api-key: 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
+      api-key: ${SPRING_AI_OPENAI_API_KEY}
       base-url: https://api.groq.com/openai
       chat:
         options:
