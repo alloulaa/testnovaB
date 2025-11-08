@@ -16,12 +16,11 @@ public class CVcontroller {
         this.cvservice = cvservice;
     }
 
-    @PostMapping(value = "/analysecv", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/analysecv", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> analyze(@RequestBody Map<String, String> body) {
         try {
             System.out.println("[Backend] Requête reçue pour analyse CV");
             String textcv = body.get("textcv");
-            String ownerName = body.get("ownerName");
 
             if (textcv == null || textcv.trim().isEmpty()) {
                 System.out.println("[Backend] Erreur: texte CV vide");
@@ -29,11 +28,8 @@ public class CVcontroller {
             }
 
             System.out.println("[Backend] Texte CV reçu: " + textcv.substring(0, Math.min(100, textcv.length())) + "...");
-            if (ownerName != null) {
-                System.out.println("[Backend] ownerName fourni: " + ownerName);
-            }
 
-            Object result = cvservice.analysecv(textcv, ownerName);
+            Object result = cvservice.analysecv(textcv);
 
             System.out.println("[Backend] Analyse terminée avec succès");
             return ResponseEntity.ok(result);
